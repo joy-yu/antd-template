@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { AppContainer } from 'react-hot-loader'
-// import router from './router'
 import axios from 'axios'
 import {common} from './api'
 import qs from 'qs'
@@ -10,13 +9,13 @@ import qs from 'qs'
 const render = Component => {
   ReactDOM.render(
     <AppContainer>
-      <App />
+      <Component />
     </AppContainer>,
     document.getElementById('app')
   )
 }
 render(App)
-// Hot Module Replacement API
+
 if (module.hot) {
   module.hot.accept(App, () => { render(App) })
 }
