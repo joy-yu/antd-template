@@ -7,7 +7,7 @@
     "dev": "webpack-dev-server -d --open --config webpack.dev.js",
     "build": "rimraf dist && webpack -p --progress --hide-modules --config webpack.prod.js",
     "upload": "gulp uploadTest",
-    "uploadts": "gulp uploadTestZs"
+    "uploadzs": "gulp uploadTestZs"
   },
   "dependencies": {
     "antd": "^2.13.7",

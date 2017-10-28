@@ -13,7 +13,7 @@ class Home extends Component {
   handleClick = (e) => {
     userModel.getList().then(res => {})
     this.setState({
-      current: e.key,
+      text: '233'
     })
   }
 
