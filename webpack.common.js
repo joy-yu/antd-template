@@ -3,26 +3,30 @@ const {
 } = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-var OpenBrowserPlugin = require('open-browser-webpack-plugin')
 const url = require('url')
 const publicPath = '/admin'
 
-module.exports = (options = {}) => ({
+module.exports = {
   entry: {
     index: ['react-hot-loader/patch', './src/main.js'],
     vendor: './src/vendor.js'
   },
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: options.dev ? '[name].js' : '[name].js?[hash]',
+    filename: '[name].js?[hash]',
     publicPath: publicPath
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: ['babel-loader'],
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            "presets": ["env", "react", "stage-0"],
+            "plugins": ["react-hot-loader/babel", "transform-decorators-legacy", "transform-runtime", "lodash",["import", { libraryName: "antd", style: true }]]
+          }
+        }],
         exclude: /node_modules/
       },
       {
@@ -37,7 +41,20 @@ module.exports = (options = {}) => ({
       },
       {
         test: /\.(css|less)$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader','less-loader']
+        use: [
+          'style-loader',
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: [
+                // require('autoprefixer')()
+              ]
+            },
+          },
+          'less-loader'
+        ]
       },
       {
         test: /favicon\.png$/,
@@ -61,42 +78,14 @@ module.exports = (options = {}) => ({
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
-    }),
     new HtmlWebpackPlugin({
       template: 'src/index.html'
-    }),
-    new LodashModuleReplacementPlugin,
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
-    new OpenBrowserPlugin({ url: 'http://localhost:8010/' })
+    })
   ],
   resolve: {
     alias: {
       '~': resolve(__dirname, 'src')
     },
     extensions: ['.js', '.jsx']
-  },
-  devServer: {
-    host: '127.0.0.1',
-    port: 8010,
-    proxy: {
-      '/api/*': {
-        //http://rapapi.org/mockjsdata/17271
-        target: '',
-        secure: false
-        // changeOrigin: true,
-        // pathRewrite: {
-        //   '^/api': ''
-        // }
-      }
-    },
-    historyApiFallback: {
-      index: publicPath
-    },
-    inline: true,
-    hot: true
-  },
-  devtool: 'eval'
-})
+  }
+}
