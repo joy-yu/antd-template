@@ -25,7 +25,7 @@ const render = Component => {
 render(Router)
 
 if (module.hot) {
-  module.hot.accept(Router, () => { render(Router) })
+  module.hot.accept('./router', () => { render(Router) })
 }
 
 
