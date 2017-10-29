@@ -9,7 +9,7 @@ const publicPath = '/admin'
 module.exports = {
   entry: {
     index: ['react-hot-loader/patch', './src/main.js'],
-    vendor: './src/vendor.js'
+    vendor: ['react-dom','react','axios','qs','mobx','react-router-dom','mobx-react']
   },
   output: {
     path: resolve(__dirname, 'dist'),
@@ -24,7 +24,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             "presets": ["env", "react", "stage-0"],
-            "plugins": ["react-hot-loader/babel", "transform-decorators-legacy", "transform-runtime", "lodash",["import", { libraryName: "antd", style: true }]]
+            "plugins": ["react-hot-loader/babel", "transform-decorators-legacy", "transform-runtime", "lodash", ["import", { libraryName: "antd", style: true }]]
           }
         }],
         exclude: /node_modules/

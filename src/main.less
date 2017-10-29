@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0px;
   padding: 0px;
@@ -8,10 +11,27 @@ body {
 ul,ol,li{
   list-style: none;
 }
-.App {
+#app {
   position: absolute;
-  top: 0px;
-  bottom: 0px;
+  top: 0;
+  bottom: 0;
   width: 100%;
-  text-align: center;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.clearfix:after{
+  display: table;
+  clear: both;
+  content: '';
+}
+.clearfix{zoom:1;}
+
+.register{
+  .ant-form-item-label{
+    text-align: left;
+  }
 }

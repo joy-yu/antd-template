@@ -1,6 +1,0 @@
-import React from 'react'
-import ReactRouter from 'react-router'
-import ReactDOM from 'react-dom'
-import axios from 'axios'
-import qs from 'qs'
-import 'antd'

@@ -9,6 +9,7 @@ import {common} from './api'
 import qs from 'qs'
 import './main.less'
 import appStore from './store/appStore'
+import { message } from 'antd'
 
 useStrict(true)
 
@@ -25,7 +26,7 @@ const render = Component => {
 render(Router)
 
 if (module.hot) {
-  module.hot.accept('./router', () => { render(Router) })  // invalid!
+  module.hot.accept( () => { render(Router) })
 }
 
 
@@ -33,19 +34,17 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 axios.interceptors.request.use(function(config){
     config.data = qs.stringify(config.data)
-    appStore.showLoading()
     // console.log('请求:', config.url, config)
     return config
 })
 
 axios.interceptors.response.use(function (response){
-  appStore.hideLoading()
     console.log('响应:', response.config.url, response)
     if (response.data.code !== 0){
+      message.error(response.data.msg)
     }
     return response
 }, function(err){
-    appStore.hideLoading()
     if(err.response){
         switch (err.response.status) {
             case 401:

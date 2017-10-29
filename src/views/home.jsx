@@ -1,33 +1,42 @@
 import React, { Component } from 'react'
 import {Button} from 'antd'
-import {userModel} from '~/api'
+import {common} from '~/api'
+import {observer} from 'mobx-react';
 
+@observer
 class Home extends Component {
   constructor(args) {
     super(...args)
+    console.log(this);
     this.state = {
       text: '662226',
-      current: 'mail'
+      area: []
     }
   }
-  handleClick = (e) => {
-    userModel.getList().then(res => {})
+  handleClick = async () => {
+    console.log(this);
+    const res = await common.areaList()
     this.setState({
-      text: '233'
+      text: '233',
+      area: res.data.data
     })
+  }
+
+  toLogin = () => {
+    this.props.history.push(`/login`, this.state)
   }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <Button type="primary">Button</Button>
+          <Button type="primary" onClick={this.toLogin}>Button</Button>
           <h1 className="App-title">Welcome to React</h1>
           <p onClick={this.handleClick}>{this.state.text}</p>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul>
+          {this.state.area.map(v => <li key={v.id}>{v.name}</li>)}
+        </ul>
       </div>
     )
   }

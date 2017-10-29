@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const common = {
-    areaList: (params) => {return axios.get('/api/v1/citys', {params:params});}
+    areaList: params => axios.get(`/api/v1/citys`, {params:params})
 }
 
-export default common;
+export default common
