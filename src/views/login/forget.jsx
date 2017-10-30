@@ -62,7 +62,7 @@ class Register extends Component {
     }, 1000)
   }
 
-  render() {
+  render = () => {
     const { getFieldDecorator } = this.props.form
 
     const formItemLayout = {

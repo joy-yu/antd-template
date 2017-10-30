@@ -8,7 +8,7 @@ const publicPath = '/admin'
 
 module.exports = {
   entry: {
-    index: ['react-hot-loader/patch', './src/main.js'],
+    index: ['react-hot-loader/patch', './src/index.js'],
     vendor: ['react-dom','react','axios','qs','mobx','react-router-dom','mobx-react']
   },
   output: {

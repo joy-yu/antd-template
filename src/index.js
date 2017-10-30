@@ -7,7 +7,7 @@ import axios from 'axios'
 import Router from './router'
 import {common} from './api'
 import qs from 'qs'
-import './main.less'
+import './index.less'
 import appStore from './store/appStore'
 import { message } from 'antd'
 
@@ -15,20 +15,19 @@ useStrict(true)
 
 const render = Component => {
   ReactDOM.render(
-    <AppContainer>
       <Provider {...appStore}>
         <Component />
-      </Provider>
-    </AppContainer>,
+      </Provider>,
     document.getElementById('app')
   )
 }
 render(Router)
 
+/*
 if (module.hot) {
   module.hot.accept( () => { render(Router) })
 }
-
+*/
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
