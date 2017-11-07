@@ -22,10 +22,16 @@ module.exports = merge(common, {
       index: common.output.publicPath
     },
     inline: true,
-    hot: true
+    hot: true,
+    open: true
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"development"'
+      }
+    })
   ]
 })

@@ -11,6 +11,16 @@ module.exports = merge(common, {
       names: ['vendor', 'manifest']
     }),
     new LodashModuleReplacementPlugin,
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
     // new BundleAnalyzerPlugin()
   ]
 })
