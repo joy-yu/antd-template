@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Link, Redirect, Switch } from 'react-router-dom'
-import {routes} from '~/router'
-import {common} from '~/api'
+import { sideRoutes } from '~/router'
+import { common } from '~/api'
 import { Layout, Menu, Icon, Avatar, Dropdown } from 'antd'
 const { Header, Sider, Content } = Layout
 const { SubMenu } = Menu
@@ -10,6 +10,7 @@ class Home extends Component {
   state = {
     collapsed: false,
   }
+
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
@@ -17,6 +18,7 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
+    console.log()
   }
 
   logout = () => {
@@ -37,7 +39,7 @@ class Home extends Component {
       </Menu>
     )
 
-    const filterRoutes = routes.filter(v => !v.ignore)
+
 
     return (
       <Layout style={{minHeight: '100%',height:'100%'}}>
@@ -50,9 +52,9 @@ class Home extends Component {
           <div style={style.logo}>
             <a href="/"><h1 style={style.logo.h1}>{this.state.collapsed?'':'后台管理系统'}</h1></a>
           </div>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu theme="dark" mode="inline" defaultOpenKeys={sideRoutes.map((v,i) => `${i}`)}  selectedKeys={[this.props.history.location.pathname]}>
             {
-              filterRoutes.map((v,i) =>
+              sideRoutes.map((v,i) =>
                 v.routes&&v.routes.length?
                   <SubMenu key={i} title={<span><Icon type="user" /><span>{v.name}</span></span>}>
                     {
@@ -64,11 +66,11 @@ class Home extends Component {
                     }
                   </SubMenu>
                 :
-                <Menu.Item key={i}>
-                  <Icon type="user" />
-                  <span>
-                    <Link to={v.path} style={{display:'inline-block'}}>{v.name}</Link>
-                  </span>
+                <Menu.Item key={v.path}>
+                  <Link to={v.path}>
+                    <Icon type="user" />
+                    <span>{v.name}</span>
+                  </Link>
                 </Menu.Item>
               )
             }
@@ -99,12 +101,12 @@ class Home extends Component {
             {
               <Switch>
                 {
-                  filterRoutes.map(v => {
-                    if(v.routes) {
-                      return v.routes.map(sub => <Route path={sub.path} component={sub.component} key={sub.path} exact={sub.exact}/>)
-                    }
-                    return <Route path={v.path} component={v.component} key={v.path} exact={v.exact}/>
-                  })
+                  sideRoutes.map(v =>
+                    v.routes?
+                      v.routes.map(sub => <Route path={sub.path} component={sub.component} key={sub.path} exact={sub.exact}/>)
+                    :
+                    <Route path={v.path} component={v.component} key={v.path} exact={v.exact}/>
+                  )
                 }
                 <Redirect to="/user" />
               </Switch>
@@ -118,7 +120,6 @@ class Home extends Component {
 
 const style ={
   sider: {
-    overflow: 'auto',
     height: '100%'
   },
   logo: {

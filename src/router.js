@@ -7,30 +7,11 @@ import Register from '~/views/login/register'
 import Forget   from '~/views/login/forget'
 import NotFound from '~/views/404'
 
-
-const routes = [
+const sideRoutes = [
   {
     path: '/user',
     name: '用户管理',
     component: Login
-  },
-  {
-    path: '/login',
-    name: '登录',
-    ignore: true,
-    component: Login
-  },
-  {
-    path: '/register',
-    name: '注册',
-    ignore: true,
-    component: Register
-  },
-  {
-    path: '/forget',
-    name: '忘记密码',
-    ignore: true,
-    component: Forget
   },
   {
     path: '/tacos',
@@ -46,24 +27,46 @@ const routes = [
         name: 'fu2'
       }
     ]
+  }
+]
+const routes = [
+  {
+    path: '/login',
+    name: '登录',
+    component: Login
   },
-
+  {
+    path: '/register',
+    name: '注册',
+    component: Register
+  },
+  {
+    path: '/forget',
+    name: '忘记密码',
+    component: Forget
+  },
   {
     path: '/404',
     name: '404',
-    component: NotFound,
-    ignore: true
+    component: NotFound
   },
 ]
 
-export {routes}
+export {sideRoutes}
 
 export default props => {
   return (
     <BrowserRouter basename="/admin" {...props}>
       <Switch>
+        {
+          routes.map(v =>
+            v.routes?
+              v.routes.map(sub => <Route path={sub.path} component={sub.component} key={sub.path} exact={sub.exact}/>)
+
+            :<Route path={v.path} component={v.component} key={v.path} exact={v.exact}/>
+          )
+        }
         <Route path="/" component={Home} />
-        <Redirect to="/" />
       </Switch>
     </BrowserRouter>
   )

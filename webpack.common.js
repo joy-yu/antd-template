@@ -40,10 +40,29 @@ module.exports = {
         }]
       },
       {
-        test: /\.(css|less)$/,
+        test: /\.less$/,
+        include: /node_modules\/antd/,
         use: [
           'style-loader',
-          { loader: 'css-loader' },
+          { loader: 'css-loader', options: {modules: false} },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: [
+                // require('autoprefixer')()
+              ]
+            },
+          },
+          'less-loader'
+        ]
+      },
+      {
+        test: /\.less$/,
+        exclude: /node_modules\/antd/,
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: {modules: true} },
           {
             loader: 'postcss-loader',
             options: {
